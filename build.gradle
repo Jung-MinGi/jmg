@@ -32,6 +32,12 @@ dependencies {
 	// https://mvnrepository.com/artifact/com.github.pagehelper/pagehelper-spring-boot-starter
 	implementation group: 'com.github.pagehelper', name: 'pagehelper-spring-boot-starter', version: '1.4.6'
 
+	//mysql
+	implementation 'com.mysql:mysql-connector-j'
+
+	//jdbc
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+
 
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
