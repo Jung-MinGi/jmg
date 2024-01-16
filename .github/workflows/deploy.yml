@@ -27,13 +27,16 @@ jobs:
       - name: Permission
         run: chmod +x ./gradlew
 
-      - name: Setup environment variables
+      - name: make application.properties
         run: |
-          echo "CLOUD_AWS_REGION_STATIC=ap-northeast-2" >> $GITHUB_ENV
-          echo "CLOUD_AWS_CREDENTIALS_ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY_ID }}" >> $GITHUB_ENV
-          echo "CLOUD_AWS_CREDENTIALS_SECRET_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> $GITHUB_ENV
-          echo "CLOUD_AWS_S3_BUCKET=${{ secrets.BUCKET_NAME }}" >> $GITHUB_ENV
-        
+          echo "spring.datasource.url=jdbc:mysql://${RDS_HOSTNAME}:${RDS_PORT}/${RDS_DB_NAME}?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC" > ./src/main/resources/application.properties
+          echo "spring.datasource.username=${RDS_USERNAME}" >> ./src/main/resources/application.properties
+          echo "spring.datasource.password=${RDS_PASSWORD}" >> ./src/main/resources/application.properties
+          echo "spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver" >> ./src/main/resources/application.properties
+          echo "server.port = 5000" >> ./src/main/resources/application.properties
+
+      - name: Display application.properties
+        run: cat ./src/main/resources/application.properties
 
       - name: Build with Gradle
         run: ./gradlew clean build
