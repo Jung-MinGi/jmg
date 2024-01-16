@@ -12,11 +12,6 @@ jobs:
       ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
       SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
       BUCKET_NAME: ${{ secrets.AWS_BUCKET_NAME }}
-      HOSTNAME: ${{ RDS_HOSTNAME }}
-      PORT: ${{ RDS_PORT }}
-      DBNAME: ${{ RDS_DB_NAME }}
-      DB_USERNAME: ${{ RDS_USERNAME }}
-      DB_PASSWORD: ${{ RDS_PASSWORD }}
       REGION: ${{ secrets.AWS_REGION }}
 
     steps:
@@ -34,9 +29,9 @@ jobs:
 
       - name: make application.properties
         run: |
-          echo "spring.datasource.url=jdbc:mysql://$HOSTNAME:$RDS_PORT/$DBNAME?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC" > ./src/main/resources/application.properties
-          echo "spring.datasource.username=$DB_USERNAME" >> ./src/main/resources/application.properties
-          echo "spring.datasource.password=$DB_PASSWORD" >> ./src/main/resources/application.properties
+          echo "spring.datasource.url=jdbc:mysql://${{ secrets.RDS_HOSTNAME }}:${{ secrets.RDS_PORT }}/${{ secrets.RDS_DB_NAME }}?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC" > ./src/main/resources/application.properties
+          echo "spring.datasource.username=${{ secrets.RDS_USERNAME }}" >> ./src/main/resources/application.properties
+          echo "spring.datasource.password=${{ secrets.RDS_PASSWORD }}" >> ./src/main/resources/application.properties
           echo "spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver" >> ./src/main/resources/application.properties
           echo "server.port = 5000" >> ./src/main/resources/application.properties
 
