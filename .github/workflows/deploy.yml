@@ -24,12 +24,6 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew clean build
 
-      - name: Setup application properties
-        run: |
-            echo "cloud.aws.credentials.access-key=$ACCESS_KEY" >> $GITHUB_ENV
-            echo "cloud.aws.credentials.secret-key=$SECRET_KEY" >> $GITHUB_ENV
-            echo "cloud.aws.s3.bucket=$BUCKET_NAME" >> $GITHUB_ENV
-            echo "cloud.aws.region.static=$REGION" >> $GITHUB_ENV
       - name: set current time
         uses: 1466587594/get-current-time@v2
         id: current-time
