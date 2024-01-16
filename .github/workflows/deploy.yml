@@ -8,22 +8,21 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    env:
-      ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
-      SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
-      BUCKET_NAME: ${{ secrets.AWS_BUCKET_NAME }}
-      REGION: ${{ secrets.AWS_REGION }}
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Setup environment variables
-        run: |
-            echo "CLOUD_AWS_CREDENTIALS_ACCESS_KEY=$ACCESS_KEY" >> $GITHUB_ENV
-            echo "CLOUD_AWS_CREDENTIALS_SECRET_KEY=$SECRET_KEY" >> $GITHUB_ENV
-            echo "CLOUD_AWS_S3_BUCKET=$BUCKET_NAME" >> $GITHUB_ENV
-            echo "CLOUD_AWS_REGION_STATIC=$REGION" >> $GITHUB_ENV
+      - name: Setup application properties
+        uses: microsoft/variable-substitution@v1
+        with:
+          files: ./src/main/resources/application.properties
+        env:
+          cloud.aws.credentials.access-key: ${{ secrets.AWS_ACCESS_KEY }}
+          cloud.aws.credentials.secret-Key: ${{ secrets.AWS_SECRET_KEY }}
+          cloud.aws.s3.bucket: ${{ secrets.AWS_BUCKET_NAME }}
+          cloud.aws.region.static: ${{ secrets.AWS_REGION }}
+
+
       - name: set current time
         uses: 1466587594/get-current-time@v2
         id: current-time
@@ -33,20 +32,20 @@ jobs:
 
       - name: Show Current Time
         run: echo "CurrentTime=${{steps.current-time.outputs.formattedTime}}"
-      - name: Generate deployment package
-        run: |
-            mkdir deploy
-            cp build/libs/*.jar deploy/application.jar
-            cp Procfile deploy/Procfile
-            cp -r .ebextensions deploy/.ebextensions
-            cd deploy && zip -r deploy.zip .
-            - name: Deploy to EB
-              uses: einaregilsson/beanstalk-deploy@v21
-              with:
-                aws_access_key: $ACCESS_KEY
-                aws_secret_key: $SECRET_KEY
-                application_name: myfirstblog-v1-beanstalk # 엘리스틱 빈스톡 애플리케이션 이름!
-                environment_name: Myfirstblog-v1-beanstalk-env # 엘리스틱 빈스톡 환경 이름!
-                version_label: aws-v5-${{steps.current-time.outputs.formattedTime}}
-                region: $REGION
-                deployment_package: deploy/deploy.zip
+#      - name: Generate deployment package
+#        run: |
+#            mkdir deploy
+#            cp build/libs/*.jar deploy/application.jar
+#            cp Procfile deploy/Procfile
+#            cp -r .ebextensions deploy/.ebextensions
+#            cd deploy && zip -r deploy.zip .
+#            - name: Deploy to EB
+#              uses: einaregilsson/beanstalk-deploy@v21
+#              with:
+#                aws_access_key: $ACCESS_KEY
+#                aws_secret_key: $SECRET_KEY
+#                application_name: myfirstblog-v1-beanstalk # 엘리스틱 빈스톡 애플리케이션 이름!
+#                environment_name: Myfirstblog-v1-beanstalk-env # 엘리스틱 빈스톡 환경 이름!
+#                version_label: aws-v5-${{steps.current-time.outputs.formattedTime}}
+#                region: $REGION
+#                deployment_package: deploy/deploy.zip
