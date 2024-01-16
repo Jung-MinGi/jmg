@@ -19,5 +19,9 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Setup environment variables
-        run: echo "$REGION"
+        run: |
+            echo "CLOUD_AWS_CREDENTIALS_ACCESS_KEY=$ACCESS_KEY" >> $GITHUB_ENV
+            echo "CLOUD_AWS_CREDENTIALS_SECRET_KEY=$SECRET_KEY" >> $GITHUB_ENV
+            echo "CLOUD_AWS_S3_BUCKET=$BUCKET_NAME" >> $GITHUB_ENV
+            echo "CLOUD_AWS_REGION_STATIC=$REGION" >> $GITHUB_ENV
 
