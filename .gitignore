@@ -38,4 +38,4 @@ out/
 
 
 #my
-application.properties
+src/main/resources/application.properties
