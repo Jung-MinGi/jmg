@@ -46,6 +46,8 @@ jobs:
           echo "mybatis.configuration.map-underscore-to-camel-case=true" >> ./src/main/resources/application.properties
           echo "spring.datasource.hikari.maximum-pool-size=40" >> ./src/main/resources/application.properties
           echo "spring.datasource.hikari.connection-timeout=3600000" >> ./src/main/resources/application.properties
+          echo "spring.datasource.hikari.max-lifetime=3600000" >> ./src/main/resources/application.properties
+          echo "spring.datasource.hikari. idle-timeout=3600000" >> ./src/main/resources/application.properties
 
       - name: Display application.properties
         run: cat ./src/main/resources/application.properties
