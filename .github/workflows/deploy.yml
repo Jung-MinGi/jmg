@@ -41,7 +41,7 @@ jobs:
           echo "cloud.aws.stack.auto=false" >> ./src/main/resources/application.properties
           echo "cloud.aws.s3.upload-tempPath=image/temp/" >> ./src/main/resources/application.properties
           echo "cloud.aws.s3.upload-Path=image/" >> ./src/main/resources/application.properties
-          echo "${{ DB_MYBATIS }}" >> ./src/main/resources/application.properties
+          echo "${{ secrets.DB_MYBATIS }}" >> ./src/main/resources/application.properties
       - name: Display application.properties
         run: cat ./src/main/resources/application.properties
 
