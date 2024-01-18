@@ -28,10 +28,13 @@ class DataAccessServiceTest {
     @Autowired
     private DataSource dataSource;
 
+    @Autowired
+    private JdbcTemplate template;
+
     @Test
     void test() {
         TextDataAccessService service = new TextDataAccessService(new DataGetRepositoryImpl(mapper)
-                , new DataGetJDBCTemplateRepositoryImpl(new JdbcTemplate(dataSource)));
+                , new DataGetJDBCTemplateRepositoryImpl(template));
         List<String> tables = service.getTables();
         assertThat(tables.size()).isNotZero();
     }
