@@ -29,7 +29,7 @@ jobs:
 
       - name: make application.properties
         run: |
-          echo "spring.datasource.url=jdbc:mysql://${{ secrets.RDS_HOSTNAME }}:${{ secrets.RDS_PORT }}/${{ secrets.RDS_DB_NAME }}?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC&amp;autoReconnection=true" > ./src/main/resources/application.properties
+          echo "spring.datasource.url=jdbc:mysql://${{ secrets.RDS_HOSTNAME }}:${{ secrets.RDS_PORT }}/${{ secrets.RDS_DB_NAME }}?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC" > ./src/main/resources/application.properties
           echo "spring.datasource.username=${{ secrets.RDS_USERNAME }}" >> ./src/main/resources/application.properties
           echo "spring.datasource.password=${{ secrets.RDS_PASSWORD }}" >> ./src/main/resources/application.properties
           echo "spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver" >> ./src/main/resources/application.properties
@@ -44,6 +44,8 @@ jobs:
           echo "mybatis.type-aliases-package=${{ secrets.MYBATIS_ALIASES }}" >> ./src/main/resources/application.properties
           echo "mybatis.mapper-locations=${{ secrets.MYBATIS_LOCATIONS }}" >> ./src/main/resources/application.properties
           echo "mybatis.configuration.map-underscore-to-camel-case=true" >> ./src/main/resources/application.properties
+          echo "spring.datasource.hikari.maximum-pool-size=40" >> ./src/main/resources/application.properties
+          echo "spring.datasource.hikari.connection-timeout=3600000" >> ./src/main/resources/application.properties
 
       - name: Display application.properties
         run: cat ./src/main/resources/application.properties
