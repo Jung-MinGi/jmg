@@ -24,7 +24,6 @@ private final DataGetJDBCTemplateRepository jdbcRepository;
     public WriteForm findText(FindTextParamDTO findTextParamDTO){
         return repository.findTextByTitle(findTextParamDTO);
     }
-    @Transactional
     public void deleteText(String category,String title){
         repository.deleteTextByTitle(category,title);
         jdbcRepository.autoIncrementReset(category);
