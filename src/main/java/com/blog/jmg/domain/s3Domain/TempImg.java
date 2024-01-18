@@ -1,4 +1,4 @@
-package com.blog.jmg.s3Domain;
+package com.blog.jmg.domain.s3Domain;
 
 import lombok.Data;
 
