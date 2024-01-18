@@ -43,6 +43,10 @@ jobs:
           echo "cloud.aws.s3.upload-Path=image/" >> ./src/main/resources/application.properties
           echo "mybatis.type-aliases-package=${{ secrets.MYBATIS_ALIASES }}" >> ./src/main/resources/application.properties
           echo "mybatis.mapper-locations=${{ secrets.MYBATIS_LOCATIONS }}" >> ./src/main/resources/application.properties
+          echo "mybatis.configuration.map-underscore-to-camel-case=true" >> ./src/main/resources/application.properties
+          echo "mybatis.type-aliases-package=${{ secrets.MYBATIS_ALIASES }}" >> ./src/test/resources/application.properties
+          echo "mybatis.mapper-locations=${{ secrets.MYBATIS_LOCATIONS }}" >> ./src/test/resources/application.properties
+          echo "mybatis.configuration.map-underscore-to-camel-case=true" >> ./src/test/resources/application.properties
           echo "server.tomcat.connection-timeout=-1" >> ./src/main/resources/application.properties
       - name: Display application.properties
         run: cat ./src/main/resources/application.properties
