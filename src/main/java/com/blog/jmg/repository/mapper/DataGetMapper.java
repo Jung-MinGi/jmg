@@ -12,4 +12,5 @@ public interface DataGetMapper {
     List<String> getTablesName();
     WriteForm findTextByTitle(FindTextParamDTO findTextParamDTO);
     void deleteTextByTitle(String category, String title);
+
 }
