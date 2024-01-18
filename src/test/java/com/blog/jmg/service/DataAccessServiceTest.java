@@ -23,13 +23,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Slf4j
 class DataAccessServiceTest {
     @Autowired
-    private DataGetMapper mapper1;
+    private DataGetMapper mapper;
     @Autowired
     private DataSource dataSource;
 
     @Test
     void test() {
-        TextDataAccessService service = new TextDataAccessService(new DataGetRepositoryImpl(mapper1)
+        TextDataAccessService service = new TextDataAccessService(new DataGetRepositoryImpl(mapper)
                 , new DataGetJDBCTemplateRepositoryImpl(new JdbcTemplate(dataSource)));
         List<String> tables = service.getTables();
         assertThat(tables.size()).isNotZero();
