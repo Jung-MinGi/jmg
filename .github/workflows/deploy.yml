@@ -8,12 +8,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    env:
-      ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
-      SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
-      BUCKET_NAME: ${{ secrets.AWS_BUCKET_NAME }}
-      REGION: ${{ secrets.AWS_REGION }}
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -44,10 +38,6 @@ jobs:
           echo "mybatis.type-aliases-package=${{ secrets.MYBATIS_ALIASES }}" >> ./src/main/resources/application.properties
           echo "mybatis.mapper-locations=${{ secrets.MYBATIS_LOCATIONS }}" >> ./src/main/resources/application.properties
           echo "mybatis.configuration.map-underscore-to-camel-case=true" >> ./src/main/resources/application.properties
-          echo "spring.datasource.hikari.maximum-pool-size=60" >> ./src/main/resources/application.properties
-          echo "spring.datasource.hikari.connection-timeout=3600000" >> ./src/main/resources/application.properties
-          echo "spring.datasource.hikari.max-lifetime=3600000" >> ./src/main/resources/application.properties
-          echo "spring.datasource.hikari. idle-timeout=3600000" >> ./src/main/resources/application.properties
           
 
       - name: Display application.properties
