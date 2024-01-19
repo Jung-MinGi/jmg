@@ -22,7 +22,8 @@ repositories {
 }
 
 dependencies {
-
+	//테스트용 DB
+	implementation 'com.h2database:h2' // h2 : implementation
 
 	//json문자열을 json을 파싱하기위해 추가
 	//	implementation 'org.json:json:20190722'

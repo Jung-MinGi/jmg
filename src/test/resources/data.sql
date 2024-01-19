@@ -1,0 +1,1 @@
+insert into spring(category,title,content) values('spring','아메리카노','fewfewfewfewf');

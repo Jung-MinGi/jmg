@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.sql.DataSource;
@@ -24,29 +25,34 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 //@ExtendWith(SpringExtension.class)
-//@SpringBootTest
+@SpringBootTest
+@ActiveProfiles("test")
 class DataAccessServiceTest {
-//    @Autowired
-//    private DataGetMapper mapper;
-//    @Autowired
-//    private JdbcTemplate template;
-//    TextDataAccessService service;
-//    @BeforeEach
-//    void before(){
-//        TextDataGetRepository repository = new DataGetRepositoryImpl(mapper);
-//        DataGetJDBCTemplateRepository jdbcTemplateRepository = new DataGetJDBCTemplateRepositoryImpl(template);
-//        service = new TextDataAccessService(repository,jdbcTemplateRepository);
-//    }
+    @Autowired
+    private DataGetMapper mapper;
+    @Autowired
+    private JdbcTemplate template;
+    TextDataAccessService service;
+    @BeforeEach
+    void before(){
+        TextDataGetRepository repository = new DataGetRepositoryImpl(mapper);
+        DataGetJDBCTemplateRepository jdbcTemplateRepository = new DataGetJDBCTemplateRepositoryImpl(template);
+        service = new TextDataAccessService(repository,jdbcTemplateRepository);
+    }
 
 
 
     @Test
     void test() {
-        assertThat(1).isNotZero();
-//        FindTextParamDTO dto = new FindTextParamDTO();
-//        dto.setCategory("spring");
-//        dto.setTitle("아메리카노");
-//        WriteForm result = service.findText(dto);
-//        assertThat(result.getTitle()).isEqualTo("아메리카노");
+//        assertThat(1).isNotZero();
+        FindTextParamDTO dto = new FindTextParamDTO();
+        dto.setCategory("spring");
+        dto.setTitle("아메리카노");
+        WriteForm result = service.findText(dto);
+        assertThat(result.getTitle()).isEqualTo("아메리카노");
+
+        List<String> tables = service.getTables();
+        assertThat(tables.size()).isEqualTo(1);
     }
+
 }
