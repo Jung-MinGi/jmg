@@ -16,16 +16,26 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class TextDataAccessService {
-private final TextDataGetRepository repository;
-private final DataGetJDBCTemplateRepository jdbcRepository;
-    public List<String> getTables(){
+    private final TextDataGetRepository repository;
+    private final DataGetJDBCTemplateRepository jdbcRepository;
+
+    public void update(WriteForm writeForm){
+        repository.update(writeForm);
+    }
+    public void save(WriteForm writeForm) {
+        repository.save(writeForm);
+    }
+
+    public List<String> getTables() {
         return repository.getTablesName();
     }
-    public WriteForm findText(FindTextParamDTO findTextParamDTO){
+
+    public WriteForm findText(FindTextParamDTO findTextParamDTO) {
         return repository.findTextByTitle(findTextParamDTO);
     }
-    public void deleteText(String category,String title){
-        repository.deleteTextByTitle(category,title);
-        jdbcRepository.autoIncrementReset(category);
+
+    public void deleteText(FindTextParamDTO findTextParamDTO) {
+        repository.deleteTextByTitle(findTextParamDTO);
+        jdbcRepository.autoIncrementReset(findTextParamDTO.getCategory());
     }
 }

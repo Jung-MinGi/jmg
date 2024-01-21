@@ -9,6 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import java.util.List;
 
 @Controller
 @Slf4j
@@ -31,5 +34,19 @@ public class ViewController {
 //        log.info("a={}",a);
         model.addAttribute("text", text);
         return "view";
+    }
+
+    @GetMapping("/update/{category}/{title}")//글 수정페이지로 이동하는 핸들러
+    public String updateForm(@PathVariable("title") String title
+            ,@PathVariable("category") String category,
+                             Model model) {
+        List<String> list = service.getTables();
+        FindTextParamDTO dto = new FindTextParamDTO();
+        dto.setCategory(category);
+        dto.setTitle(title);
+        WriteForm text = service.findText(dto);
+        model.addAttribute("tables", list);
+        model.addAttribute("contents", text);
+        return "update";
     }
 }

@@ -39,7 +39,7 @@ form{
 </head>
 <body th:with="object=${text}">
 <div class="text-num-button">
-    <a class="tnb-ch" id="btn-update" th:href="@{/update/{category}/{id}(category=${object.category},id=${object.id})}"> 수정하기</a>
+    <a class="tnb-ch" id="btn-update" th:href="@{/update/{category}/{title}(category=${object.category},title=${object.title})}"> 수정하기</a>
     <button class="tnb-ch" id="btn-delete"> 삭제하기</button>
 </div>
 <hr>

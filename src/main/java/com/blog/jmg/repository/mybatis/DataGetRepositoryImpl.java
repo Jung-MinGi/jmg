@@ -17,6 +17,16 @@ public class DataGetRepositoryImpl implements TextDataGetRepository {
     private final DataGetMapper mapper;
 
     @Override
+    public void update(WriteForm writeForm) {
+        mapper.update(writeForm);
+    }
+
+    @Override
+    public void save(WriteForm writeForm) {
+        mapper.save(writeForm);
+    }
+
+    @Override
     public List<String> getTablesName() {
         return mapper.getTablesName();
     }
@@ -27,8 +37,8 @@ public class DataGetRepositoryImpl implements TextDataGetRepository {
     }
 
     @Override
-    public void deleteTextByTitle(@Param("category") String category,@Param("title") String title) {
-        mapper.deleteTextByTitle(category, title);
+    public void deleteTextByTitle(FindTextParamDTO findTextParamDTO) {
+        mapper.deleteTextByTitle(findTextParamDTO);
     }
 
 }

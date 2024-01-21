@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.blog.jmg.repository.mapper.DataGetMapper">
+    <update id="update">
+        update ${category} set category=#{category}, title=#{title}, content=#{content} where id=#{id};
+    </update>
+    <insert id="save">
+        insert into ${category} (category,title, content) VALUES (#{category},#{title},#{content});
+    </insert>
+
     <select id="getTablesName" resultType="String">
         show tables;
     </select>

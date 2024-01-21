@@ -63,7 +63,7 @@
                 const content = response.list;
                 //title만들기
                 let tmp = document.querySelector(category);
-                let pTagTitle = `<p style="text-align: center;">${response.list[0].category}</p>`;
+                let pTagTitle = `<p style="text-align: center; font-size: 25px;">${response.list[0].category}</p>`;
                 tmp.insertAdjacentHTML('beforeend', pTagTitle);
 
                 for(var i=0; i<content.length; i++){
@@ -127,8 +127,8 @@
                 tdElement.style.width = "250px";
                 tdElement.style.height = "170px";
                 tdElement.style.verticalAlign = "top";
-<!--                tdElement.style.padding= "3px";-->
                 tdElement.setAttribute("id",arr[i]+j);
+
                 document.getElementById(arr[i]).appendChild(tdElement);
                 idx++;
                 //제목 태그 생성

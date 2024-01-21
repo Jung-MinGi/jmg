@@ -6,7 +6,9 @@ import com.blog.jmg.domain.WriteForm;
 import java.util.List;
 
 public interface TextDataGetRepository {
+    void update(WriteForm writeForm);
+    void save(WriteForm writeForm);
     List<String> getTablesName();
     WriteForm findTextByTitle(FindTextParamDTO findTextParamDTO);
-    void deleteTextByTitle(String category,String title);
+    void deleteTextByTitle(FindTextParamDTO findTextParamDTO);
 }

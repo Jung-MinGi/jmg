@@ -8,8 +8,10 @@ import java.util.List;
 
 @Mapper
 public interface DataGetMapper {
+    void update(WriteForm writeForm);
+    void save(WriteForm writeForm);
     List<String> getTablesName();
     WriteForm findTextByTitle(FindTextParamDTO findTextParamDTO);
-    void deleteTextByTitle(String category, String title);
+    void deleteTextByTitle(FindTextParamDTO findTextParamDTO);
 
 }
