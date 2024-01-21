@@ -44,7 +44,8 @@ jobs:
         run: cat ./src/main/resources/application.properties
       - name: nginx config update
         run: |
-          echo "types_hash_max_size 4096;" >> ./etc/nginx/nginx.config
+          echo "types_hash_max_size 4096;" >> /etc/nginx/nginx.config
+          sudo service nginx restart
 
       - name: Build with Gradle
         run: ./gradlew clean build
