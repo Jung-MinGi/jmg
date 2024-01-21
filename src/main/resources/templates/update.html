@@ -62,7 +62,9 @@
                   processData: false,
                   success: function(tempImg) {
                       $('#summernote').summernote('insertImage', tempImg.savedPath, tempImg.originalName);
-                    },
+                    }.error: function(jqXHR, textStatus, errorThrown) {
+        console.error('Ajax request failed:', textStatus, errorThrown);
+    },
                 })
               }
     </script>
