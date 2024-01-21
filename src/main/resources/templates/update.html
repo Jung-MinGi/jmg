@@ -51,6 +51,7 @@
               function sendFile(file, el) {
                 var form_data = new FormData();
                 form_data.append('file', file);
+                alert("임시 이미지 파일 저장 로직"+form_data.file);
                 $.ajax({
                   data: form_data,
                   type: "POST",
