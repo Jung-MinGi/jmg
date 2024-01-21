@@ -25,7 +25,7 @@ let updateIndex = {
 				contentType: "application/json; charset=utf-8",
 //				dataType: "json"
 			}).done(function(resp){
-				alert(" 완료되었습니다.!!!");
+				alert(" 완료되었습니다.!!");
 				location.href = `/writeShow/${resp.category}/${resp.title}`;
 			}).fail(function(error){
 				console.log(JSON.stringify(error));
