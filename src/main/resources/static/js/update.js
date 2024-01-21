@@ -28,7 +28,7 @@ let updateIndex = {
 				alert(" 완료되었습니다.");
 				location.href = `/writeShow/${resp.category}/${resp.title}`;
 			}).fail(function(error){
-				alert(error.responseText);
+				console.log(JSON.stringify(error));
 			});
 		}
 }
