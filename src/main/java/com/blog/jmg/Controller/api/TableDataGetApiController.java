@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -49,9 +50,8 @@ public class TableDataGetApiController {
     private String path;
 
     @ExceptionHandler(RuntimeException.class)
-    public StackTraceElement[] exceptionHandle(Exception e){
-        e.printStackTrace();
-        return e.getStackTrace();
+    public ResponseEntity<String> exceptionHandle(Exception e){
+        return new ResponseEntity<>(Arrays.toString(e.getStackTrace()),HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @GetMapping("/tables")

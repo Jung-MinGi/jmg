@@ -24,11 +24,11 @@ let updateIndex = {
 				data: JSON.stringify(data),
 				contentType: "application/json; charset=utf-8",
 //				dataType: "json"
-			}).done(function(resp){
-				alert(" 완료되었습니다.!!");
-				location.href = `/writeShow/${resp.category}/${resp.title}`;
+			}).done(function(tmp){
+				alert(" 완료되었습니다.!!"+JSON.stringify(tmp));
+				location.href = `/writeShow/${tmp.category}/${tmp.title}`;
 			}).fail(function(error){
-				console.log(JSON.stringify(error));
+				console.log(error);
 			});
 		}
 }

@@ -31,9 +31,8 @@ public class S3FileProcess {
     @Value("${cloud.aws.s3.upload-Path}")
     private String path;
     @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<Throwable> exceptionHandle(Exception e){
-        e.printStackTrace();
-        return new ResponseEntity<>(e.getCause(), HttpStatus.INTERNAL_SERVER_ERROR);
+    public ResponseEntity<String> exceptionHandle(Exception e){
+        return new ResponseEntity<>(Arrays.toString(e.getStackTrace()),HttpStatus.INTERNAL_SERVER_ERROR);
     }
     public TempImg tempImageFileUploadToS3(MultipartFile file) throws IOException {
         String serverFileName = getServerFileName(file.getOriginalFilename());
