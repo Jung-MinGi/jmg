@@ -1,6 +1,7 @@
 package com.blog.jmg.Controller.api;
 
 import com.amazonaws.services.s3.AmazonS3Client;
+import com.blog.jmg.domain.FindTextByIdDTO;
 import com.blog.jmg.domain.FindTextParamDTO;
 import com.blog.jmg.domain.WriteForm;
 import com.blog.jmg.domain.s3Domain.S3FileProcess;
@@ -17,12 +18,10 @@ import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -50,9 +49,9 @@ public class TableDataGetApiController {
     private String path;
 
     @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<Throwable> exceptionHandle(Exception e){
+    public StackTraceElement[] exceptionHandle(Exception e){
         e.printStackTrace();
-        return new ResponseEntity<>(e.getCause(), HttpStatus.INTERNAL_SERVER_ERROR);
+        return e.getStackTrace();
     }
 
     @GetMapping("/tables")
@@ -113,8 +112,10 @@ public class TableDataGetApiController {
 
             //⬇️수정시에는 기존에 있던 DB에서 src값 뺴와서 새로 들어온 src값과 비교후 존재하지 않는다면 s3에 접근해서 삭제해야됨
             if (map.size() == 5) {
-
-                WriteForm form = service.findText(dto);
+                FindTextByIdDTO param = new FindTextByIdDTO();
+                param.setCategory(map.get("originalCategoryName"));
+                param.setId(map.get("id"));
+                WriteForm form = service.findTextById(param);
                 Element body = Jsoup.parse(form.getContent()).body();
                 Elements img = body.getElementsByTag("img");
                 for (Element element : img) {

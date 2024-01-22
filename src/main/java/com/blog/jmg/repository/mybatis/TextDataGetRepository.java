@@ -1,5 +1,6 @@
 package com.blog.jmg.repository.mybatis;
 
+import com.blog.jmg.domain.FindTextByIdDTO;
 import com.blog.jmg.domain.FindTextParamDTO;
 import com.blog.jmg.domain.WriteForm;
 
@@ -10,5 +11,6 @@ public interface TextDataGetRepository {
     void save(WriteForm writeForm);
     List<String> getTablesName();
     WriteForm findTextByTitle(FindTextParamDTO findTextParamDTO);
+    WriteForm findTextById(FindTextByIdDTO findTextByIdDTO);
     void deleteTextByTitle(FindTextParamDTO findTextParamDTO);
 }

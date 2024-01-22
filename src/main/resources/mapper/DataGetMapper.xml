@@ -16,6 +16,10 @@
         select * from ${category} where title=#{title};
     </select>
 
+    <select id="findTextById" resultType="WriteForm">
+        select * from ${category} where id=#{id};
+    </select>
+
     <delete id="deleteTextByTitle">
         delete from ${category} where title=#{title};
     </delete>

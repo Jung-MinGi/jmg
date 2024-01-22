@@ -1,5 +1,6 @@
 package com.blog.jmg.repository.mybatis;
 
+import com.blog.jmg.domain.FindTextByIdDTO;
 import com.blog.jmg.domain.FindTextParamDTO;
 import com.blog.jmg.domain.WriteForm;
 import com.blog.jmg.repository.mapper.DataGetMapper;
@@ -29,6 +30,11 @@ public class DataGetRepositoryImpl implements TextDataGetRepository {
     @Override
     public List<String> getTablesName() {
         return mapper.getTablesName();
+    }
+
+    @Override
+    public WriteForm findTextById(FindTextByIdDTO findTextByIdDTO) {
+        return mapper.findTextById(findTextByIdDTO);
     }
 
     @Override

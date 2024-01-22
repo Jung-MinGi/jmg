@@ -59,13 +59,15 @@
                   cache: false,
                   contentType: false,
                   enctype: 'multipart/form-data',
-                  processData: false,
-                  success: function(tempImg) {
+                  processData: false
+                 }).done(function(resp){
 <!--                  const str = atob(tempImg.savedPath.substr(22));-->
 <!--                  alert(str);-->
-                      $('#summernote').summernote('insertImage', tempImg.savedPath, tempImg.originalName);
-                    }
-                });
+                      $('#summernote').summernote('insertImage', resp.savedPath, resp.originalName);
+                    }).fail(function(error){
+				console.log(JSON.stringify(error));
+			});
+
               }
     </script>
     <style>

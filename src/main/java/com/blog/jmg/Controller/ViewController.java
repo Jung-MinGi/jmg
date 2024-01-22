@@ -38,7 +38,7 @@ public class ViewController {
 //            , @PathVariable("title") String title) {
         //contents을 content.html에 보여주기
         log.info("category={} , title={}", findTextParamDTO.toString());
-        WriteForm text = service.findText(findTextParamDTO);
+        WriteForm text = service.findTextByTitle(findTextParamDTO);
         //        WriteForm a = repository.findByCategoryAndTitle(findParam);
 //        log.info("a={}",a);
         model.addAttribute("text", text);
@@ -53,7 +53,7 @@ public class ViewController {
         FindTextParamDTO dto = new FindTextParamDTO();
         dto.setCategory(category);
         dto.setTitle(title);
-        WriteForm text = service.findText(dto);
+        WriteForm text = service.findTextByTitle(dto);
         model.addAttribute("tables", list);
         model.addAttribute("contents", text);
         return "update";

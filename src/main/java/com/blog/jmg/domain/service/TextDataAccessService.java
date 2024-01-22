@@ -1,5 +1,6 @@
 package com.blog.jmg.domain.service;
 
+import com.blog.jmg.domain.FindTextByIdDTO;
 import com.blog.jmg.domain.FindTextParamDTO;
 import com.blog.jmg.domain.WriteForm;
 import com.blog.jmg.repository.jdbctemplate.DataGetJDBCTemplateRepository;
@@ -30,8 +31,11 @@ public class TextDataAccessService {
         return repository.getTablesName();
     }
 
-    public WriteForm findText(FindTextParamDTO findTextParamDTO) {
+    public WriteForm findTextByTitle(FindTextParamDTO findTextParamDTO) {
         return repository.findTextByTitle(findTextParamDTO);
+    }
+    public WriteForm findTextById(FindTextByIdDTO findTextByIdDTO) {
+        return repository.findTextById(findTextByIdDTO);
     }
 
     public void deleteText(FindTextParamDTO findTextParamDTO) {
