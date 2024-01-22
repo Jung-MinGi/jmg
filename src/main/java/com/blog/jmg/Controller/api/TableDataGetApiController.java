@@ -104,7 +104,7 @@ public class TableDataGetApiController {
             //
 
             //⬇️s3 temp안에 내용 모두 삭제 로직(재사용로직)
-            s3FileProcess.deleteTempFolder();
+//            s3FileProcess.deleteTempFolder();
 
             FindTextParamDTO dto = new FindTextParamDTO();
             dto.setCategory(map.get("originalCategoryName"));
