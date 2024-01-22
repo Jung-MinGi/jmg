@@ -29,9 +29,10 @@ dependencies {
 	// jsoup HTML parser library @ https://jsoup.org/
 	implementation 'org.jsoup:jsoup:1.17.2'
 	//aws starter
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 //	implementation("com.amazonaws:aws-java-sdk-s3:1.12.174")
-	implementation platform('com.amazonaws:aws-java-sdk-bom:1.12.529')
-	implementation 'com.amazonaws:aws-java-sdk-s3'
+//	implementation platform('com.amazonaws:aws-java-sdk-bom:1.12.529')
+//	implementation 'com.amazonaws:aws-java-sdk-s3'
 	// https://mvnrepository.com/artifact/com.github.pagehelper/pagehelper-spring-boot-starter
 	implementation group: 'com.github.pagehelper', name: 'pagehelper-spring-boot-starter', version: '1.4.6'
 
