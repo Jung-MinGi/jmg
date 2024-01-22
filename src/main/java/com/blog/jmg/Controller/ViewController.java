@@ -23,6 +23,15 @@ public class ViewController {
         return "index";
     }
 
+    @GetMapping("/image")//글 작성 페이지로 이동 핸들러
+    public String summer(Model model) {
+        List<String> list = service.getTables();
+        log.info("show tables={}", list);
+        model.addAttribute("tables", list);
+        return "board";
+    }
+
+
     @GetMapping("/writeShow/{category}/{title}")//작성된 글 보여주는 핸들러
     public String showText(Model model, @ModelAttribute FindTextParamDTO findTextParamDTO){
 //            , @PathVariable(value = "category") String category

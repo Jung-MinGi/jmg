@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -51,7 +50,6 @@
               function sendFile(file, el) {
                 var form_data = new FormData();
                 form_data.append('file', file);
-                alert("임시 이미지 파일 저장 로직"+form_data.file);
                 $.ajax({
                   data: form_data,
                   type: "POST",
@@ -61,47 +59,35 @@
                   enctype: 'multipart/form-data',
                   processData: false,
                   success: function(tempImg) {
-<!--                  const str = atob(tempImg.savedPath.substr(22));-->
-<!--                  alert(str);-->
                       $('#summernote').summernote('insertImage', tempImg.savedPath, tempImg.originalName);
-                    }
-                });
+                    },
+                })
               }
     </script>
     <style>
-        body{
-           width:700px;
-        }
-       form{
+        form,body > div{
            padding-left: 10px;
-       }
+        }
     </style>
 </head>
 <body>
+<div>
+    <select name="tableName" id="tableNameSelect">
+        <option value="">카테고리를 선택하세요</option>
+        <option th:each="table :${tables}" th:value="${table}"
+                th:text="${table}"></option>
+    </select>
+</div>
 <form method="post">
-    <div>글 번호: <input type="text" id="id" th:value="${contents.id}" disabled></div>
-    <hr>
-
-    <div>
-        <input type="hidden" id="originalCategoryName" th:value="${contents.category}">
-        카테고리:
-        <select name="tableName" id="tableNameSelect">
-            <option th:value="${contents.category}" th:text="${contents.category}"></option>
-            <option th:each="table :${tables}" th:value="${table}"
-                    th:text="${table}"></option>
-        </select>
-    </div>
-    <hr>
-    <div>글 제목: <input type="text" id="title" placeholder="제목" th:value="${contents.title}"></div>
-    <hr>
-    글 내용:<textarea id="summernote" name="editordata" th:utext="${contents.content}"></textarea>
+    <input type="text" id="title" placeholder="제목" style="height: 40px;">
+    <textarea id="summernote" name="editordata"></textarea>
 </form>
 <button id="btn-save" style="margin-left: 10px"> 전송</button>
 <button id="btn-cancel" style="margin-left: 50px">취소하기</button>
+<script src="/js/board.js"></script>
 <script>$(document).ready(function() {
         $('#summernote').summernote();
       });
 </script>
-<script src="/js/update.js"></script>
 </body>
 </html>
