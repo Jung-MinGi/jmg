@@ -17,6 +17,7 @@ import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -48,6 +49,11 @@ public class TableDataGetApiController {
     @Value("${cloud.aws.s3.upload-Path}")
     private String path;
 
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<String> exceptionHandle(Exception e){
+        return new ResponseEntity<>(Arrays.toString(e.getStackTrace()),HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
     @GetMapping("/tables")
     public ResponseEntity<List<String>> getAllTablesName() {
         List<String> tables = service.getTables();
@@ -70,18 +76,12 @@ public class TableDataGetApiController {
     @PostMapping("/temp/image")
     @ResponseBody
     public TempImg TmpimageSaveToS3(MultipartFile file) throws IOException {
-        try {
 
             return s3FileProcess.tempImageFileUploadToS3(file);
-        }catch (Exception e){
-            log.error(Arrays.toString(e.getStackTrace()));
-        }
-        return new TempImg("aa","af");
     }
 
     @PostMapping("/image") // summernote에 작성된 글 완성본 넘어올때 처리하는 핸들러 비동기로 넘어온다
     public ResponseEntity<Object> summerAll(@RequestBody String contents) throws JsonProcessingException {
-        try {
             //⬇️JSON으로 넘어온 글번호,글제목,글내용 map으로 파싱후(재사용로직)
             Map<String, String> map = objectMapper.readValue(contents, new TypeReference<>() {
             });
@@ -144,9 +144,5 @@ public class TableDataGetApiController {
                 service.save(writeForm);
             }
             return new ResponseEntity<>(writeForm, HttpStatus.OK);
-        }catch (Exception e){
-            log.error(Arrays.toString(e.getStackTrace()));
-        }
-       return new ResponseEntity<>("aaa",HttpStatus.OK);
     }
 }
