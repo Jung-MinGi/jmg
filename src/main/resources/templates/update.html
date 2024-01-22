@@ -61,11 +61,11 @@
                   enctype: 'multipart/form-data',
                   processData: false,
                   success: function(tempImg) {
+                  const str = atob(tempImg.savedPath.substr(22));
+                  alert(str);
                       $('#summernote').summernote('insertImage', tempImg.savedPath, tempImg.originalName);
-                    }.error: function(jqXHR, textStatus, errorThrown) {
-        console.error('Ajax request failed:', textStatus, errorThrown);
-    },
-                })
+                    }
+                });
               }
     </script>
     <style>
