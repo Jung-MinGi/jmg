@@ -79,10 +79,12 @@ public class S3FileProcess {
     public void deleteTempFolder() {
         ListObjectsRequest listObjectsRequest = new ListObjectsRequest(bucketName, tempPath, null, null, null);
         ObjectListing objectListing = client.listObjects(listObjectsRequest);
-        List<S3ObjectSummary> objectSummaries = objectListing.getObjectSummaries();
-        for (S3ObjectSummary objectSummary : objectSummaries) {
-            log.info("key = {}", objectSummary.getKey());
-            client.deleteObject(bucketName, objectSummary.getKey());
+        if(objectListing!=null){
+            List<S3ObjectSummary> objectSummaries = objectListing.getObjectSummaries();
+            for (S3ObjectSummary objectSummary : objectSummaries) {
+                log.info("key = {}", objectSummary.getKey());
+                client.deleteObject(bucketName, objectSummary.getKey());
+            }
         }
     }
     private void saveImageFileToS3(PutObjectRequest putObjectRequest) {
