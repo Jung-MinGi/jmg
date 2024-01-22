@@ -79,18 +79,39 @@ public class S3FileProcess {
         }
         return body.html();
     }
-    public void deleteTempFolder() {
+//    public void deleteTempFolder() {
+//
+//        ListObjectsRequest listObjectsRequest = new ListObjectsRequest(bucketName, tempPath, null, null, null);
+//        ObjectListing objectListing = client.listObjects(listObjectsRequest);
+//        if(objectListing!=null){
+//            List<S3ObjectSummary> objectSummaries = objectListing.getObjectSummaries();
+//            for (S3ObjectSummary objectSummary : objectSummaries) {
+//                log.info("key = {}", objectSummary.getKey());
+//                client.deleteObject(bucketName, objectSummary.getKey());
+//            }
+//        }
+//    }
 
-        ListObjectsRequest listObjectsRequest = new ListObjectsRequest(bucketName, tempPath, null, null, null);
-        ObjectListing objectListing = client.listObjects(listObjectsRequest);
-        if(objectListing!=null){
-            List<S3ObjectSummary> objectSummaries = objectListing.getObjectSummaries();
-            for (S3ObjectSummary objectSummary : objectSummaries) {
-                log.info("key = {}", objectSummary.getKey());
-                client.deleteObject(bucketName, objectSummary.getKey());
+    public void deleteTempFolder() {
+        try {
+            ListObjectsRequest listObjectsRequest = new ListObjectsRequest(bucketName, tempPath, null, null, null);
+            ObjectListing objectListing = client.listObjects(listObjectsRequest);
+
+            if (objectListing != null) {
+                List<S3ObjectSummary> objectSummaries = objectListing.getObjectSummaries();
+
+                for (S3ObjectSummary objectSummary : objectSummaries) {
+                    log.info("Deleting key = {}", objectSummary.getKey());
+                    client.deleteObject(bucketName, objectSummary.getKey());
+                }
             }
+        } catch (AmazonS3Exception e) {
+            log.error("Error while listing or deleting objects: {}", e.getMessage());
+            // 예외 처리 로직 추가
+
         }
     }
+
     private void saveImageFileToS3(PutObjectRequest putObjectRequest) {
         client.putObject(putObjectRequest.withCannedAcl(CannedAccessControlList.PublicRead));
     }
