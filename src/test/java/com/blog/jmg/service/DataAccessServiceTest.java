@@ -1,5 +1,6 @@
 package com.blog.jmg.service;
 
+import com.blog.jmg.domain.FindTextByIdDTO;
 import com.blog.jmg.domain.FindTextParamDTO;
 import com.blog.jmg.domain.WriteForm;
 import com.blog.jmg.domain.service.TextDataAccessService;
@@ -39,10 +40,10 @@ class DataAccessServiceTest {
     @Test
     void test() {
 //        assertThat(1).isNotZero();
-        FindTextParamDTO dto = new FindTextParamDTO();
+        FindTextByIdDTO dto = new FindTextByIdDTO();
         dto.setCategory("spring");
-        dto.setTitle("아메리카노");
-        WriteForm result = service.findText(dto);
+        dto.setId("1");
+        WriteForm result = service.findTextById(dto);
         assertThat(result.getTitle()).isEqualTo("아메리카노");
 
         List<String> tables = service.getTables();
