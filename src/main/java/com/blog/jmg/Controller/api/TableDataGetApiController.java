@@ -87,8 +87,7 @@ public class TableDataGetApiController {
             //⬇️JSON으로 넘어온 글번호,글제목,글내용 map으로 파싱후(재사용로직)
             Map<String, String> map = objectMapper.readValue(contents, new TypeReference<>() {
             });
-            log.info(map.toString());
-
+        System.out.println("TableDataGetApiController.summerAll");
 
             //⬇️검증 로직 수행(재사용로직) 💥💥추후에 인터셉터로 옮김
             for (String s : map.keySet()) {
