@@ -3,6 +3,8 @@ package com.blog.jmg.domain.s3Domain;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
@@ -33,25 +35,23 @@ public class S3FileProcess {
     private String tempPath;
     @Value("${cloud.aws.s3.upload-Path}")
     private String path;
+    private final ObjectMapper objectMapper;
 
-    //    @ExceptionHandler(RuntimeException.class)
-//    public ResponseEntity<String> exceptionHandle(Exception e){
-//        return new ResponseEntity<>(Arrays.toString(e.getStackTrace()),HttpStatus.INTERNAL_SERVER_ERROR);
-//    }
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<String> exceptionHandle(Exception e) throws JsonProcessingException {
+        objectMapper.writeValueAsString(e);
+        return new ResponseEntity<>(Arrays.toString(e.getStackTrace()), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
     public TempImg tempImageFileUploadToS3(MultipartFile file) throws IOException {
-        try {
-            String serverFileName = getServerFileName(file.getOriginalFilename());
-            String s3Path = tempPath + serverFileName;
+        String serverFileName = getServerFileName(file.getOriginalFilename());
+        String s3Path = tempPath + serverFileName;
 
-            ObjectMetadata objectMetadata = new ObjectMetadata();
-            objectMetadata.setContentType(file.getContentType());
-            objectMetadata.setContentLength(file.getSize());
-            saveImageFileToS3(new PutObjectRequest(bucketName, s3Path, file.getInputStream(), objectMetadata));
-            return new TempImg(amazonS3Client.getUrl(bucketName, s3Path).toString(), file.getOriginalFilename());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
+        ObjectMetadata objectMetadata = new ObjectMetadata();
+        objectMetadata.setContentType(file.getContentType());
+        objectMetadata.setContentLength(file.getSize());
+        saveImageFileToS3(new PutObjectRequest(bucketName, s3Path, file.getInputStream(), objectMetadata));
+        return new TempImg(amazonS3Client.getUrl(bucketName, s3Path).toString(), file.getOriginalFilename());
     }
 
     public HashSet<String> imgTagFindSrc(String bodyContent) throws IOException {
