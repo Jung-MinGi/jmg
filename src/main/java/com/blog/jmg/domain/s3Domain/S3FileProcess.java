@@ -26,7 +26,7 @@ import java.util.*;
 @Slf4j
 @RequiredArgsConstructor
 public class S3FileProcess {
-    private final AmazonS3Client client;
+    private final AmazonS3Client amazonS3Client;
     @Value("${cloud.aws.s3.bucket}")
     private String bucketName;
     @Value("${cloud.aws.s3.upload-tempPath}")
@@ -47,7 +47,7 @@ public class S3FileProcess {
             objectMetadata.setContentType(file.getContentType());
             objectMetadata.setContentLength(file.getSize());
             saveImageFileToS3(new PutObjectRequest(bucketName, s3Path, file.getInputStream(), objectMetadata));
-            return new TempImg(client.getUrl(bucketName, s3Path).toString(), file.getOriginalFilename());
+            return new TempImg(amazonS3Client.getUrl(bucketName, s3Path).toString(), file.getOriginalFilename());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -70,7 +70,7 @@ public class S3FileProcess {
         S3Object o = null;
         for (String s : list) {
             String dataFolder = LocalDate.now() + "/";
-            o = client.getObject(bucketName, s);
+            o = amazonS3Client.getObject(bucketName, s);
             String fileName = s.substring(s.lastIndexOf("/") + 1);
             String realPath = path + dataFolder + fileName;
             saveImageFileToS3(new PutObjectRequest(bucketName, realPath, o.getObjectContent(), o.getObjectMetadata()));
@@ -109,14 +109,14 @@ public class S3FileProcess {
     public void deleteTempFolder() {
         try {
             ListObjectsRequest listObjectsRequest = new ListObjectsRequest(bucketName, tempPath, null, null, null);
-            ObjectListing objectListing = client.listObjects(listObjectsRequest);
+            ObjectListing objectListing = amazonS3Client.listObjects(listObjectsRequest);
 
             if (objectListing != null) {
                 List<S3ObjectSummary> objectSummaries = objectListing.getObjectSummaries();
 
                 for (S3ObjectSummary objectSummary : objectSummaries) {
                     log.info("Deleting key = {}", objectSummary.getKey());
-                    client.deleteObject(bucketName, objectSummary.getKey());
+                    amazonS3Client.deleteObject(bucketName, objectSummary.getKey());
                 }
             }
         } catch (AmazonS3Exception e) {
@@ -127,7 +127,7 @@ public class S3FileProcess {
     }
 
     private void saveImageFileToS3(PutObjectRequest putObjectRequest) {
-        client.putObject(putObjectRequest.withCannedAcl(CannedAccessControlList.PublicReadWrite));
+        amazonS3Client.putObject(putObjectRequest.withCannedAcl(CannedAccessControlList.PublicRead));
     }
 
     private static String getServerFileName(String originalFilename) {

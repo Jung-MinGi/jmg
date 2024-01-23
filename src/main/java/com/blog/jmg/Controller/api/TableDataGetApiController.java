@@ -40,7 +40,7 @@ public class TableDataGetApiController {
     private static final String regex = "^[\\p{L}0-9\\s]+$";
     public static final Pattern pattern = Pattern.compile(regex);
 
-    private final AmazonS3Client client;
+    private final AmazonS3Client amazonS3Client;
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucketName;
@@ -123,7 +123,7 @@ public class TableDataGetApiController {
                     String src = element.attr("src");
                     if (!set.contains(src.substring(src.lastIndexOf("image"))) && src.contains(bucketName)) {//위키피디아 이런건 그냥 무시해야됨
                         String imgKey = src.substring(src.lastIndexOf("image"));
-                        client.deleteObject(bucketName, imgKey);
+                        amazonS3Client.deleteObject(bucketName, imgKey);
                     }
                 }
             }

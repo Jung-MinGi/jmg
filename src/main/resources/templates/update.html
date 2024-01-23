@@ -63,6 +63,7 @@
                  }).done(function(resp){
 <!--                  const str = atob(tempImg.savedPath.substr(22));-->
 <!--                  alert(str);-->
+                        alert("이미지 저장 경로"+resp.savedPath);
                       $('#summernote').summernote('insertImage', resp.savedPath, resp.originalName);
                     }).fail(function(error){
 				console.log(JSON.stringify(error));
