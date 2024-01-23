@@ -60,7 +60,7 @@
                   enctype: 'multipart/form-data',
                   processData: false,
                   success: function(tempImg) {
-                  console.log(JSON.stringify(tempImg));
+<!--                  console.log(JSON.stringify(tempImg));-->
                       $('#summernote').summernote('insertImage', tempImg.savedPath, tempImg.originalName);
                     }
 
