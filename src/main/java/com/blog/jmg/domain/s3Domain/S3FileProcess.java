@@ -53,8 +53,11 @@ public class S3FileProcess {
         try {
             saveImageFileToS3(new PutObjectRequest(bucketName, s3Path, file.getInputStream(), objectMetadata));
 
-        }catch (AmazonS3Exception e){
-            e.printStackTrace();
+        }catch (AmazonS3Exception e) {
+            log.error("Exception toString(): {}", e.toString());
+            log.error("Exception getMessage(): {}", e.getMessage());
+            log.error("Exception Stack Trace:", e);
+            throw e;
         }
         return new TempImg(amazonS3Client.getUrl(bucketName, s3Path).toString(), file.getOriginalFilename());
     }
