@@ -50,6 +50,7 @@
               function sendFile(file, el) {
                 var form_data = new FormData();
                 form_data.append('file', file);
+                console.log(form_data.get('file'));
                 $.ajax({
                   data: form_data,
                   type: "POST",
@@ -59,12 +60,11 @@
                   enctype: 'multipart/form-data',
                   processData: false,
                   success: function(tempImg) {
+                  console.log(JSON.stringify(tempImg));
                       $('#summernote').summernote('insertImage', tempImg.savedPath, tempImg.originalName);
-                    },
-                    }.error: function(jqXHR, textStatus, errorThrown) {
-        console.error('Ajax request failed:', textStatus, errorThrown);
-    },
-                })
+                    }
+
+                });
               }
     </script>
     <style>
