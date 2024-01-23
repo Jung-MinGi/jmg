@@ -49,10 +49,10 @@ public class TableDataGetApiController {
     @Value("${cloud.aws.s3.upload-Path}")
     private String path;
 
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<String> exceptionHandle(Exception e){
-        return new ResponseEntity<>(Arrays.toString(e.getStackTrace()),HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+//    @ExceptionHandler(RuntimeException.class)
+//    public ResponseEntity<String> exceptionHandle(Exception e){
+//        return new ResponseEntity<>(Arrays.toString(e.getStackTrace()),HttpStatus.INTERNAL_SERVER_ERROR);
+//    }
 
     @GetMapping("/tables")
     public ResponseEntity<List<String>> getAllTablesName() {
@@ -76,8 +76,8 @@ public class TableDataGetApiController {
     @PostMapping("/temp/image")
     @ResponseBody
     public TempImg TmpimageSaveToS3(MultipartFile file) throws IOException {
+                return s3FileProcess.tempImageFileUploadToS3(file);
 
-            return s3FileProcess.tempImageFileUploadToS3(file);
     }
 
     @PostMapping("/image") // summernote에 작성된 글 완성본 넘어올때 처리하는 핸들러 비동기로 넘어온다

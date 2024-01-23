@@ -33,19 +33,25 @@ public class S3FileProcess {
     private String tempPath;
     @Value("${cloud.aws.s3.upload-Path}")
     private String path;
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<String> exceptionHandle(Exception e){
-        return new ResponseEntity<>(Arrays.toString(e.getStackTrace()),HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-    public TempImg tempImageFileUploadToS3(MultipartFile file) throws IOException {
-        String serverFileName = getServerFileName(file.getOriginalFilename());
-        String s3Path = tempPath + serverFileName;
 
-        ObjectMetadata objectMetadata = new ObjectMetadata();
-        objectMetadata.setContentType(file.getContentType());
-        objectMetadata.setContentLength(file.getSize());
-        saveImageFileToS3(new PutObjectRequest(bucketName, s3Path, file.getInputStream(), objectMetadata));
-        return new TempImg(client.getUrl(bucketName, s3Path).toString(), file.getOriginalFilename());
+    //    @ExceptionHandler(RuntimeException.class)
+//    public ResponseEntity<String> exceptionHandle(Exception e){
+//        return new ResponseEntity<>(Arrays.toString(e.getStackTrace()),HttpStatus.INTERNAL_SERVER_ERROR);
+//    }
+    public TempImg tempImageFileUploadToS3(MultipartFile file) throws IOException {
+        try {
+            String serverFileName = getServerFileName(file.getOriginalFilename());
+            String s3Path = tempPath + serverFileName;
+
+            ObjectMetadata objectMetadata = new ObjectMetadata();
+            objectMetadata.setContentType(file.getContentType());
+            objectMetadata.setContentLength(file.getSize());
+            saveImageFileToS3(new PutObjectRequest(bucketName, s3Path, file.getInputStream(), objectMetadata));
+            return new TempImg(client.getUrl(bucketName, s3Path).toString(), file.getOriginalFilename());
+        } catch (AmazonS3Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public HashSet<String> imgTagFindSrc(String bodyContent) throws IOException {
@@ -54,26 +60,27 @@ public class S3FileProcess {
         ArrayList<String> list = new ArrayList<>();
         for (Element element : imgTag) {
             String src = element.attr("src");
-            try{
+            try {
                 list.add(src.substring(src.lastIndexOf("image")));
-            }catch (StringIndexOutOfBoundsException e){
+            } catch (StringIndexOutOfBoundsException e) {
                 log.info("작성자가 올린 이미지가 아닙니다");
             }
         }
         HashSet<String> set = new HashSet<>();
-        S3Object o=null;
+        S3Object o = null;
         for (String s : list) {
             String dataFolder = LocalDate.now() + "/";
-             o = client.getObject(bucketName, s);
+            o = client.getObject(bucketName, s);
             String fileName = s.substring(s.lastIndexOf("/") + 1);
             String realPath = path + dataFolder + fileName;
             saveImageFileToS3(new PutObjectRequest(bucketName, realPath, o.getObjectContent(), o.getObjectMetadata()));
             set.add(s);
         }
-        if(o!=null) o.close();
+        if (o != null) o.close();
 
         return set;
     }
+
     public String replaceTempPathToOriginalPath(String bodyContent) {
         Element body = Jsoup.parse(bodyContent).body();
         Elements imgTag = body.getElementsByTag("img");
