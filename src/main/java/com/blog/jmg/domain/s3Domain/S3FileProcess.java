@@ -48,7 +48,7 @@ public class S3FileProcess {
             objectMetadata.setContentLength(file.getSize());
             saveImageFileToS3(new PutObjectRequest(bucketName, s3Path, file.getInputStream(), objectMetadata));
             return new TempImg(client.getUrl(bucketName, s3Path).toString(), file.getOriginalFilename());
-        } catch (AmazonS3Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;

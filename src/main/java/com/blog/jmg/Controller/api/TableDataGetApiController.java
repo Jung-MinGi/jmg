@@ -49,10 +49,11 @@ public class TableDataGetApiController {
     @Value("${cloud.aws.s3.upload-Path}")
     private String path;
 
-//    @ExceptionHandler(RuntimeException.class)
-//    public ResponseEntity<String> exceptionHandle(Exception e){
-//        return new ResponseEntity<>(Arrays.toString(e.getStackTrace()),HttpStatus.INTERNAL_SERVER_ERROR);
-//    }
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<String> exceptionHandle(Exception e){
+        log.error("이게 뭐냐",e);
+        return new ResponseEntity<>(Arrays.toString(e.getStackTrace()),HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
     @GetMapping("/tables")
     public ResponseEntity<List<String>> getAllTablesName() {

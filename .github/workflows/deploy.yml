@@ -38,7 +38,7 @@ jobs:
           echo "mybatis.type-aliases-package=${{ secrets.MYBATIS_ALIASES }}" >> ./src/main/resources/application.properties
           echo "mybatis.mapper-locations=${{ secrets.MYBATIS_LOCATIONS }}" >> ./src/main/resources/application.properties
           echo "mybatis.configuration.map-underscore-to-camel-case=true" >> ./src/main/resources/application.properties
-          echo "logging.level.com.amazonaws =DEBUG " >> ./src/main/resources/application.properties
+          echo "logging.level.com.amazonaws = error" >> ./src/main/resources/application.properties
           
 
       - name: Display application.properties
