@@ -37,11 +37,11 @@ public class S3FileProcess {
     private String path;
     private final ObjectMapper objectMapper;
 
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<String> exceptionHandle(Exception e) throws JsonProcessingException {
-        objectMapper.writeValueAsString(e);
-        return new ResponseEntity<>(Arrays.toString(e.getStackTrace()), HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+//    @ExceptionHandler(RuntimeException.class)
+//    public ResponseEntity<String> exceptionHandle(Exception e) throws JsonProcessingException {
+//        objectMapper.writeValueAsString(e);
+//        return new ResponseEntity<>(Arrays.toString(e.getStackTrace()), HttpStatus.INTERNAL_SERVER_ERROR);
+//    }
 
     public TempImg tempImageFileUploadToS3(MultipartFile file) throws IOException {
         String serverFileName = getServerFileName(file.getOriginalFilename());

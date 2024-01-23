@@ -50,11 +50,11 @@ public class TableDataGetApiController {
     private String path;
 
 
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<String> exceptionHandle(Exception e) throws JsonProcessingException {
-        objectMapper.writeValueAsString(e);
-        return new ResponseEntity<>(Arrays.toString(e.getStackTrace()), HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+//    @ExceptionHandler(RuntimeException.class)
+//    public ResponseEntity<String> exceptionHandle(Exception e) throws JsonProcessingException {
+//        objectMapper.writeValueAsString(e);
+//        return new ResponseEntity<>(Arrays.toString(e.getStackTrace()), HttpStatus.INTERNAL_SERVER_ERROR);
+//    }
 
     @GetMapping("/tables")
     public ResponseEntity<List<String>> getAllTablesName() {
