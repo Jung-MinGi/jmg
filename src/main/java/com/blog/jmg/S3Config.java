@@ -1,5 +1,7 @@
 package com.blog.jmg;
 
+import com.amazonaws.ClientConfigurationFactory;
+import com.amazonaws.Protocol;
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
@@ -26,6 +28,7 @@ public class S3Config {
         return  (AmazonS3Client)AmazonS3ClientBuilder.standard()
                 .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
                 .withRegion(region)
+                .withClientConfiguration(new ClientConfigurationFactory().getConfig().withProtocol(Protocol.HTTP))
                 .build();
     }
 }
