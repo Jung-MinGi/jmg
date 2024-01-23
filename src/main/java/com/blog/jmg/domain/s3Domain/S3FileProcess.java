@@ -47,17 +47,8 @@ public class S3FileProcess {
         saveImageFileToS3(new PutObjectRequest(bucketName, s3Path, file.getInputStream(), objectMetadata));
         return new TempImg(client.getUrl(bucketName, s3Path).toString(), file.getOriginalFilename());
     }
-    private Optional<File> convert(MultipartFile file) throws IOException {
-        File convertFile = new File(file.getOriginalFilename());
-        if(convertFile.createNewFile()){
-            try (FileOutputStream fos = new FileOutputStream(convertFile)){
-                fos.write(file.getBytes());
-            }
-            return Optional.of(convertFile);
-        }
-        return Optional.empty();
-    }
-    public HashSet<String> imgTagFindSrc(String bodyContent){
+
+    public HashSet<String> imgTagFindSrc(String bodyContent) throws IOException {
         Element body = Jsoup.parse(bodyContent).body();
         Elements imgTag = body.getElementsByTag("img");
         ArrayList<String> list = new ArrayList<>();
@@ -70,14 +61,16 @@ public class S3FileProcess {
             }
         }
         HashSet<String> set = new HashSet<>();
+        S3Object o=null;
         for (String s : list) {
             String dataFolder = LocalDate.now() + "/";
-            S3Object o = client.getObject(bucketName, s);
+             o = client.getObject(bucketName, s);
             String fileName = s.substring(s.lastIndexOf("/") + 1);
             String realPath = path + dataFolder + fileName;
             saveImageFileToS3(new PutObjectRequest(bucketName, realPath, o.getObjectContent(), o.getObjectMetadata()));
             set.add(s);
         }
+        if(o!=null) o.close();
 
         return set;
     }
@@ -127,7 +120,7 @@ public class S3FileProcess {
     }
 
     private void saveImageFileToS3(PutObjectRequest putObjectRequest) {
-        client.putObject(putObjectRequest.withCannedAcl(CannedAccessControlList.PublicRead));
+        client.putObject(putObjectRequest.withCannedAcl(CannedAccessControlList.PublicReadWrite));
     }
 
     private static String getServerFileName(String originalFilename) {

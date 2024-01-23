@@ -81,7 +81,7 @@ public class TableDataGetApiController {
     }
 
     @PostMapping("/image") // summernote에 작성된 글 완성본 넘어올때 처리하는 핸들러 비동기로 넘어온다
-    public ResponseEntity<Object> summerAll(@RequestBody String contents) throws JsonProcessingException {
+    public ResponseEntity<Object> summerAll(@RequestBody String contents) throws IOException {
             //⬇️JSON으로 넘어온 글번호,글제목,글내용 map으로 파싱후(재사용로직)
             Map<String, String> map = objectMapper.readValue(contents, new TypeReference<>() {
             });
