@@ -2,7 +2,7 @@ name: myBlog
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   build:
@@ -41,7 +41,7 @@ jobs:
           echo "logging.level.com.amazonaws = error" >> ./src/main/resources/application.properties
           
 
-      - name: Display application.properties!!
+      - name: Display application.properties!
         run: cat ./src/main/resources/application.properties
 
 
